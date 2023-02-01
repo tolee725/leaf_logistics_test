@@ -1,46 +1,31 @@
-# Getting Started with Create React App
+# Applicant
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Goal
 
-## Available Scripts
+Your assignment is to create a SPA to display and browse the top news of the [News API endpoint](https://newsapi.org/docs/endpoints/top-headlines). The API is free for development purposes but the content coming from the server is limited to 260 characters.
 
-In the project directory, you can run:
+Below you'll find some wireframes for inspiration, you are not required to implement them 100% like this.
 
-### `yarn start`
+The aim of this exercise is to show us how you think about code to solve the problem at hand. The primary criteria for judgment are basic software engineering and architectural principles.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Functionality
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* A way to switch between countries, e.g. US and UK
 
-### `yarn test`
+* An overview of the top news items and a way to access the detail page
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* A search to filter the news
 
-### `yarn build`
+## Framework & Libraries
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* React with Typescript. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* React-Query for data fetching, pagination, caching ...
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* React-router for routing
 
-### `yarn eject`
+## Installation 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Create a `.env` file with the required items as it is in `.env.sample`
+* `yarn` to install all the modules. 
+* `yarn start` to run the app in the browser. 
