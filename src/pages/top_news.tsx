@@ -2,63 +2,68 @@ import { getTopNews, pageSize } from "api/main";
 import { NewsCard } from "components/news_card";
 import { MainContext } from "contexts/main_context";
 import { MainLayout } from "layouts/main_layout";
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useCallback } from "react";
 import { useInfiniteQuery } from "react-query";
+import { useLocation } from "react-router-dom";
 import { Article, ArticleResponse } from "types/main";
 
+const newsSources = { us: "United States", gb: "Great Britain" };
 const TopNews = () => {
+  const location = useLocation();
   const { country } = useContext(MainContext);
+  const [keyword, setKeyword] = useState("");
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  const isSearchScreen = useMemo(() => {
+    return location.pathname === "/search";
+  }, [location]);
+
+  useEffect(() => {
+    if (!isSearchScreen) setKeyword("");
+  }, [isSearchScreen]);
 
   const loadData = useCallback(
     ({ pageParam = 1 }) => {
-      return getTopNews({ page: pageParam, country });
+      return getTopNews({ page: pageParam, country, keyword });
     },
-    [country]
+    [country, keyword]
   );
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    status,
-    isFetchingNextPage,
-  } = useInfiniteQuery<ArticleResponse>(["news", country], loadData, {
-    refetchOnWindowFocus: false,
-    staleTime: 30 * 60 * 1000, // update cache every 30 minutes
-    getNextPageParam: (lastPage, pages) => {
-      return pages.length < Math.ceil(lastPage.totalResults / pageSize)
-        ? pages.length + 1
-        : undefined;
-    },
-  });
+  const { data, error, fetchNextPage, hasNextPage, status, isFetching } =
+    useInfiniteQuery<ArticleResponse>(
+      ["search_news", country, keyword],
+      loadData,
+      {
+        refetchOnWindowFocus: false,
+        staleTime: 30 * 60 * 1000, // update cache every 30 minutes
+        getNextPageParam: (lastPage, pages) => {
+          return pages.length < Math.ceil(lastPage.totalResults / pageSize)
+            ? pages.length + 1
+            : undefined;
+        },
+      }
+    );
 
   const totalItems = useMemo(() => {
     return data?.pages[0]?.totalResults || 0;
   }, [data]);
 
   const onLoadMore = () => {
-    if (isFetchingNextPage) return;
+    if (isFetching) return;
     fetchNextPage();
   };
 
-  if (status === "loading")
-    return (
-      <MainLayout>
-        <div className="articles-view">Loading •••</div>
-      </MainLayout>
-    );
+  const onSearch = useCallback(() => {
+    setKeyword(searchRef?.current?.value || "");
+  }, [searchRef]);
 
-  if (error)
-    return (
-      <MainLayout>
-        <div className="articles-view">Failed to fetch articles</div>
-      </MainLayout>
-    );
+  const articleContent = () => {
+    if (status === "loading") return <h5>Loading •••</h5>;
+    if (error) return <h5>Failed to fetch articles</h5>;
+    if (totalItems === 0) return <h5> No articles </h5>;
 
-  return (
-    <MainLayout>
+    return (
       <div className="articles-view">
         {data?.pages?.map((page: ArticleResponse) => {
           return page?.articles.map((article: Article) => {
@@ -68,11 +73,35 @@ const TopNews = () => {
         {hasNextPage && (
           <NewsCard
             isLoadMoreCard
-            isLoadingMore={isFetchingNextPage}
+            isLoadingMore={isFetching}
             onLoadMore={onLoadMore}
           />
         )}
-        {totalItems === 0 && <div> No articles </div>}
+      </div>
+    );
+  };
+
+  const getSearchBox = () => {
+    return (
+      <div className="search-box">
+        <input ref={searchRef} />
+        <button onClick={onSearch}>Search</button>
+      </div>
+    );
+  };
+
+  return (
+    <MainLayout>
+      <div className="top-news-view">
+        {isSearchScreen ? (
+          <h3 className="page-header">
+            Search top news from {newsSources[country]}
+          </h3>
+        ) : (
+          <h3 className="page-header">Top news from {newsSources[country]}</h3>
+        )}
+        {isSearchScreen && getSearchBox()}
+        {articleContent()}
       </div>
     </MainLayout>
   );

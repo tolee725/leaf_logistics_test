@@ -1,6 +1,6 @@
 export enum CountryCode {
   US = "us",
-  GB = "bbc-news",
+  GB = "gb",
 }
 
 export type ArticleSource = {

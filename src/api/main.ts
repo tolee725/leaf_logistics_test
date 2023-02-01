@@ -8,11 +8,13 @@ export const pageSize = 20;
 /**
  * @param locale is the news source
  * @param page is the current page
+ * @param keyword is the search keyword
  * @returns news array based on the params
  */
 export const getTopNews = ({
   country = CountryCode.US,
   page = 1,
+  keyword = "",
 }): Promise<ArticleResponse> => {
   return new Promise<ArticleResponse>((resolve, reject) => {
     Axios.get(`${API_URL}`, {
@@ -20,6 +22,7 @@ export const getTopNews = ({
         country,
         pageSize,
         page,
+        q: keyword,
         apiKey: API_KEY,
       },
     })

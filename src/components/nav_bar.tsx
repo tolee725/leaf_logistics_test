@@ -1,5 +1,6 @@
 import { MainContext } from "contexts/main_context";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { CountryCode } from "types/main";
 import { getCountryCode } from "utils/enum";
@@ -20,7 +21,7 @@ const NavBar = () => {
       {navItems.map((item) => {
         return (
           <NavItem key={item.label} active={location.pathname === item.path}>
-            {item.label}
+            <Link to={item.path}>{item.label}</Link>
           </NavItem>
         );
       })}
@@ -32,6 +33,7 @@ const NavBar = () => {
             onNavItemClick={() => setCountry(itemValue)}
             key={key}
             active={itemValue === country}
+            disabled={location.pathname === "/detail"}
           >
             {key}
           </NavItem>
