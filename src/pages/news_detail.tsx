@@ -5,7 +5,7 @@ const NewsDetail = (): React.ReactElement => {
   const { article, setArticle } = useContext(MainContext);
   const goBack = useCallback(() => {
     setArticle(null);
-  }, []);
+  }, [setArticle]);
 
   return (
     <div className="article-detail">

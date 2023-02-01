@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { MainContext } from "contexts/main_context";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { Article } from "types/main";
 
 type NewsCardProps = {
@@ -18,7 +17,6 @@ const NewsCard = ({
   onLoadMore,
 }: NewsCardProps) => {
   const { setArticle } = useContext(MainContext);
-  const navigate = useNavigate();
 
   const onViewDetail = () => {
     setArticle(article);

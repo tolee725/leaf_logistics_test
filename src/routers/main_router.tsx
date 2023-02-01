@@ -1,5 +1,4 @@
 import { Categories } from "pages/categories";
-import { NewsDetail } from "pages/news_detail";
 import { TopNews } from "pages/top_news";
 import { createBrowserRouter } from "react-router-dom";
 
