@@ -17,10 +17,6 @@ const mainRouter = createBrowserRouter([
     path: "/search",
     element: <TopNews />,
   },
-  {
-    path: "/detail",
-    element: <NewsDetail />,
-  },
 ]);
 
 export { mainRouter };

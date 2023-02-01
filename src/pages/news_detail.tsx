@@ -1,25 +1,30 @@
 import { MainContext } from "contexts/main_context";
-import { MainLayout } from "layouts/main_layout";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useContext } from "react";
 
 const NewsDetail = (): React.ReactElement => {
-  const { article } = useContext(MainContext);
+  const { article, setArticle } = useContext(MainContext);
+  const goBack = useCallback(() => {
+    setArticle(null);
+  }, []);
 
   return (
-    <MainLayout>
-      <div className="article-detail">
-        <Link to="/">Back to list</Link>
-        {article && (
-          <div>
-            <h1>{article?.title}</h1>
-            <img src={article?.urlToImage} alt="img_source" />
-            <h3>{article?.description}</h3>
-          </div>
-        )}
-        {article && <Link to="/">Back to list</Link>}
+    <div className="article-detail">
+      <div className="go-back" onClick={goBack}>
+        Back to list
       </div>
-    </MainLayout>
+      {article && (
+        <div>
+          <h1>{article?.title}</h1>
+          <img src={article?.urlToImage} alt="img_source" />
+          <h3>{article?.description}</h3>
+        </div>
+      )}
+      {article && (
+        <div className="go-back" onClick={goBack}>
+          Back to list
+        </div>
+      )}
+    </div>
   );
 };
 

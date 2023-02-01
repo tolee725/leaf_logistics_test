@@ -60,10 +60,14 @@ body {
       padding-top: $nav-bar-height;
 
       .article-detail {
-        padding: 1rem 1rem;
-
         img {
           width: 80%;
+        }
+
+        .go-back {
+          text-decoration: underline;
+          color: blue;
+          cursor: pointer;
         }
       }
 

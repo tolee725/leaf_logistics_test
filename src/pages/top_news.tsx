@@ -7,11 +7,12 @@ import { useCallback } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import { Article, ArticleResponse } from "types/main";
+import { NewsDetail } from "./news_detail";
 
 const newsSources = { us: "United States", gb: "Great Britain" };
 const TopNews = () => {
   const location = useLocation();
-  const { country } = useContext(MainContext);
+  const { country, article } = useContext(MainContext);
   const [keyword, setKeyword] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -62,6 +63,7 @@ const TopNews = () => {
     if (status === "loading") return <h5>Loading •••</h5>;
     if (error) return <h5>Failed to fetch articles</h5>;
     if (totalItems === 0) return <h5> No articles </h5>;
+    if (article) return <NewsDetail />;
 
     return (
       <div className="articles-view">

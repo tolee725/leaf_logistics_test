@@ -22,7 +22,6 @@ const NewsCard = ({
 
   const onViewDetail = () => {
     setArticle(article);
-    navigate("/detail");
   };
 
   if (isLoadMoreCard)
